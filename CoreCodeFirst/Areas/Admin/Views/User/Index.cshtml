@@ -1,0 +1,55 @@
+﻿
+@model IEnumerable<User>
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h2>User Dashboard</h2>
+        </div>
+          <div class="col-md-6 text-end">
+               <a class="btn btn-outline-success" asp-area="Admin" asp-controller="User" asp-action="CreateUser"><i class="bi bi-plus-circle"></i>Create Product</a>          
+        </div>
+    </div>
+    <partial name="_Notification"/>
+    <table class="table container-fluid">
+        <thead>
+            <tr>
+                <th style="margin:0%;padding:0%">User Name</th>
+                <th style="margin:0%;padding:0%">Email</th>
+                <th style="margin:0%;padding:0%">Create Date</th>
+                <th style="margin:0%;padding:0%">Modified Date</th>
+                <th style="margin:0%;padding:0%">Phone Number</th>
+                <th style="margin:0%;padding:0%">Street Address</th>
+                <th style="margin:0%;padding:0%">City</th>
+                <th style="margin:0%;padding:0%">State</th>
+                <th style="margin:0%;padding:0%">Postal Code</th>
+                 <th style="margin:0%;padding:0%">User Type</th>
+                 <th style="margin:0%;padding:0%">Action</th>
+            </tr>    
+        </thead>
+        <tbody>
+            @foreach(var user in Model)
+            {
+                <tr>
+                    <td class="col-lg-2" >@user.UserName</td>
+                    <td class="col-lg-2"  >@user.Email</td>
+                    <td class="col-lg-2" >@user.CreatedDate</td>
+                    <td class="col-lg-2" >@user.ModifiedDate</td>
+                     <td class="col-lg-2" >@user.PhoneNumber</td>
+                    <td class="col-lg-2" >@user.StreetAddress</td>
+                    <td class="col-lg-2" >@user.City</td>
+                    <td class="col-lg-2" >@user.State</td>
+                    <td class="col-lg-2" >@user.PostalCode</td>
+                   
+                    <td class="col-lg-2">@user.UserType.Users</td>
+                    <td class="col-lg-2" >
+                        <a class="btn btn-primary" asp-area="Admin" asp-controller="User" asp-route-id="@user.Id" asp-action="Edit"><i class="bi bi-pencil-square"></i></a>
+                        <a class="btn btn-danger" asp-area="Admin" asp-controller="User" asp-route-id="@user.Id" asp-action="Delete"><i class="bi bi-trash"></i></a>                   
+                    </td>      
+                </tr>            
+            }
+        </tbody>
+    </table>
+</div>
+
+
+

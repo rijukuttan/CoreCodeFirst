@@ -1,0 +1,59 @@
+﻿@model Product
+
+<div class="container">
+    <div class="col-md-6 align-self-auto mt-4 border border-1 p-3 rounded-2">
+
+   
+    <div class="row">
+        <h2>Create Product</h2>
+    </div>
+    <div class="row">
+        <form method="POST" id="CreateProduct">
+            <div class="form-group">
+                <label asp-for="ProductName" class="form-label"></label>
+                <input asp-for="ProductName" class="form-control"/>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductPrice" class="form-label"></label>
+                <input asp-for="ProductPrice" class="form-control"/>
+                <span asp-validation-for="ProductPrice" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="CategoryId" class="form-label"></label>
+                <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-control">
+                    <option disabled selected>--Select Category--</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Describtion" class="form-label"></label>
+                <textarea asp-for="Describtion" id="Describtion" class="form-control"></textarea>
+                <span asp-validation-for="Describtion" class="text-danger"></span>
+            </div>
+            <div class="mt-2">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a class="btn btn-outline-secondary" asp-controller="Product" asp-action="Index">Back To List</a>
+            </div>
+        </form>
+    </div>
+     </div>
+</div>
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+   tinymce.init({
+   selector:'textarea',
+    height:200
+});
+}
+
+
+ <script>
+tinymce.init({
+    selector:'textarea',
+    height:200
+});
+ </script>
+

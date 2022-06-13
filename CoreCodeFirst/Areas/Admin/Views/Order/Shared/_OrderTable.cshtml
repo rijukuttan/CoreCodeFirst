@@ -1,0 +1,11 @@
+﻿@model IEnumerable<OrderHeader> 
+  @foreach(var item in Model.Select((value,index)=>new{index,value})){
+                        <tr>
+                            <td>@(item.index+1)</td>
+                            <td>@item.value.Name</td>
+                             <td>@item.value.PhoneNumber</td>
+                             <td>@item.value.OrderDate</td>
+                             <td>@item.value.OrderStatus</td>
+                            <td>@item.value.OrderTotal</td>
+                        </tr>
+                    }

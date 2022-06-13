@@ -1,0 +1,144 @@
+﻿@using CoreCodeFirst.ViewModels
+@model ShoppingCartVM
+<form method="Get">
+<br/>
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-dark text-light ml-0">
+            <div class="row">
+                <div class="col-6 pt-2">
+                    <i class="fa fa-shopping-cart"></i>
+                    Shopping Cart
+                </div>
+                <div class="col-6 text-end">
+                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info">
+                        Go To List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="card-body">
+    @foreach(var item in Model.ListCart)
+    {
+        <div class="row">
+            <div class="col-3">
+            <img style="border: 1px solid #ddd;border-radius: 4px;padding: 5px;width: 150px;" src="@item.Product.ImageUrl" class="rounded"/> 
+            </div>
+            <div class="col-4">
+            <h5><strong>@item.Product.ProductName</strong></h5> 
+            <p><small>@Html.Raw(item.Product.Describtion)</small></p>
+            </div>
+            <div class="col-5 col-lg-5 align-content-center row">
+
+
+       @*     <div class="col-4 text-md-right ">
+                ToString("e")
+                <h6><strong>@item.Product.ProductPrice
+                <span class="text text-muted">x</span>@item.Count</strong></h6>
+            </div>*@  
+
+
+             <div class="col-4 text-md-right ">
+                @*ToString("e")*@
+                <h6><strong>@item.Product.ProductPrice
+                <span class="text text-muted" >x</span><span id=@item.Id>@item.Count</span></strong></h6>
+            </div>  
+
+
+@*            <div class="col-6 col-sm-4 col-lg-6 ">
+                <div class="w-75 btn-group" role="group">
+                    <a asp-action="plus" asp-route-CartId="@item.Id"  class="btn btn-primary">
+                        <i class="bi-plus-square"></i>
+                    </a>
+                    <a asp-action="minus" asp-route-CartId="@item.Id" class="btn btn-warning">
+                        <i class="bi-dash-square"></i>
+                    </a>
+                </div>
+            </div>*@
+
+
+                        <div class="col-6 col-sm-4 col-lg-6 ">
+                <div class="w-75 btn-group" role="group">
+                    <a id="btnPlus"  class="btn btn-primary" onclick="Plus(@item.Id)">
+                        <i class="bi-plus-square"></i>
+                    </a>
+                    <a id="btnMinus" class="btn btn-warning" onclick="Minus(@item.Id)">
+                        <i class="bi-dash-square"></i>
+                    </a>
+                </div>
+            </div>
+
+            </div>
+
+         </div>
+    }
+</div>
+    <div class="card-footer">
+            <div class="row">
+              
+                <div class="col-12 col-md-4 ms-auto">
+                    <button type="submit" asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-primary form-control ">Summary</button>
+                </div>
+            </div>
+        </div>
+</div>
+</form>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+ <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+@*    <script type="text/javascript">
+           function Minus(id) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Customer/Cart/Minus?cartId=' + id,
+                    , success: $.ajax({
+                    type: 'Add',
+                    url: '/Customer/Cart/GetCount?cartId=' + id,
+                    , success: function(result){   
+    document.getElementById("count").innerHTML = result;
+  }
+                });
+                });      
+        };
+        
+    </script>*@
+ <script type="text/javascript">
+      function Minus(id) {
+                     $.ajax({
+                    type: 'GET',
+                    url: '/Customer/Cart/Minus?cartId=' + id,
+                    success:function(){  getCount(id);}
+                })
+     
+        }
+        function getCount(id){
+                       $.ajax({
+                    type: 'GET',
+                    url: '/Customer/Cart/GetCount?cartId=' + id,
+                     success: function(result){   
+    document.getElementById(id).innerHTML = result;
+  }
+                });
+        }
+      
+     </Script>
+        <script type="text/javascript">
+
+   function Plus(id) {
+                     $.ajax({
+                    type: 'GET',
+                    url: '/Customer/Cart/Plus?cartId=' + id,
+                    success:function(){  getCount(id);}
+                })
+        }
+        function getCount(id){
+                       $.ajax({
+                    type: 'GET',
+                    url: '/Customer/Cart/GetCount?cartId=' + id,
+                    success: function(result){   
+    document.getElementById(id).innerHTML = result;
+  }
+                });
+        }
+      
+    </script>

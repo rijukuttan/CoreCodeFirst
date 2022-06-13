@@ -1,0 +1,117 @@
+﻿@model Product
+<div class="container">
+    <div class="col-md-6 align-self-auto mt-4 border border-1 p-3 rounded-2">
+
+   
+    <div class="row">
+       @* <h2> @if(Id==null || Id==0 ? "Create":"Update") Product</h2>*@
+      @*    @if(@Model.Id==0 || @Model.Id == null)
+                    {
+                        <h2>Create Product</h2>
+                        
+                    }else{
+                          <h2>Update Product</h2>
+                    }*@
+                        @if(@ViewBag.mode.ToString()=="create")
+                    {
+                        <h2>Create Product</h2>
+                        
+                    }else{
+                          <h2>Update Product</h2>
+                    }
+    </div>
+    <div class="row">
+        <form method="POST" enctype="multipart/form-data" id="EditOrInsertProduct">
+            <div class="form-group">
+                <label asp-for="ProductName" class="form-label"></label>
+                <input asp-for="ProductName" class="form-control"/>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductPrice" class="form-label"></label>
+                <input asp-for="ProductPrice" class="form-control"/>
+                <span asp-validation-for="ProductPrice" class="text-danger"></span>
+            </div>
+               <div class="form-group">
+                <label asp-for="ImageUrl" class="form-label"></label>
+                <input asp-for="ImageUrl" type="file" id="ImageUrl" name="file" class="form-control"/>
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="CategoryId" class="form-label"></label>
+                <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-control">
+                    <option disabled selected>--Select Category--</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+     @*               <div class="form-group">
+
+                @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.Category, "Id", "CategoryName")
+
+, new { @class = "form-control" })
+
+           </div>*@
+            <div class="form-group">
+                <label asp-for="Describtion" class="form-label"></label>
+                <textarea asp-for="Describtion" id="Describtion" class="form-control"></textarea>
+                <span asp-validation-for="Describtion" class="text-danger"></span>
+            </div>
+            <div class="mt-2">
+              @*      @if(@Model.Id==0 || @Model.Id == null)
+                    {
+                        <button type="submit" class="btn btn-primary">Create Product</button>
+                        
+                    }else{
+                         <button type="submit" class="btn btn-primary">Update Product</button>
+                    }*@
+                        @if(@ViewBag.mode.ToString() == "create")
+                    {
+                        <button type="submit" onclick="return ImageUploadValidate()" class="btn btn-primary">Create Product</button>
+                        
+                    }else{
+                         <button type="submit" class="btn btn-primary">Update Product</button>
+                    }
+                <a class="btn btn-outline-secondary" asp-controller="Product" asp-action="Index">Back To List</a>
+            </div>
+        </form>
+    </div>
+     </div>
+
+</div>
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
+<script>
+
+function ImageUploadValidate(){
+    var file = document.getElementById("ImageUrl");
+    if(file.files.length == 0){
+       swal({
+  title: "went wrong!",
+  text: "Please Upload Image!",
+  icon: "error",
+});
+      
+ 
+return false;
+    }
+ 
+   
+    return true;
+}
+      tinymce.init({
+      selector: 'textarea',
+      plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
+      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter image editimage pageembed permanentpen table tableofcontents',
+      toolbar_mode: 'floating',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+    });
+
+</script>
+
+
+
+

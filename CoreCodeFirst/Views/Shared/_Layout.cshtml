@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CoreCodeFirst</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CoreCodeFirst.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+     <script src="https://cdn.tiny.cloud/1/kpjqvcnpu8maply56cjk2db96wd22znt5tbdbuofrf4672au/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <!--bootstrap link-->
+   
+</head>
+<body>
+ 
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CoreCodeFirst</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" asp-area="Admin" asp-controller="Product" asp-action="Index">Product List</a>
+                        </li>
+                          <li class="nav-item">
+                              <a class="nav-link text-warning" asp-area="Admin" asp-controller="User" asp-action="Index">User List</a>
+                              </li>
+                               <li class="nav-item">
+                              <a class="nav-link text-warning" asp-area="Admin" asp-controller="Category" asp-action="Index">Category List</a>
+                              </li>
+                                  <li class="nav-item">
+                              <a class="nav-link text-warning" asp-area="Admin" asp-controller="Order" asp-action="Index">order List</a>
+                              </li>
+
+                          
+                       
+                          @{
+                          if (string.IsNullOrEmpty(Context.Session.GetString("UserType")))
+                            {
+                                // @Html.Raw(@ViewBag.Message)
+                            }
+                            else if (@Context.Session.GetString("UserType").Equals("admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-warning" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                    <div class="dropdown-menu">
+                                        <a class="nav-link text-warning " asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
+                                        <a class="nav-link text-warning " asp-area="Admin" asp-area="Admin" asp-controller="User" asp-action="Index">User List</a>
+                                        <a class="nav-link text-warning " asp-area="Admin" asp-area="Admin" asp-controller="Category" asp-action="Index">Category List</a>
+                                        <a class="nav-link text-warning " asp-area="Admin" asp-area="Admin" asp-controller="Order" asp-action="Index">Order List</a>                 
+                                       
+                                    </div>
+                                </li>
+                              
+                            }}  
+
+                    </ul>
+
+                    @{
+                        if (string.IsNullOrEmpty(Context.Session.GetString("LogStatus")))
+                        {
+                            <a class="nav-link text-warning mr-3" asp-area="Customer" asp-controller="LoginAndRegister" asp-action="RegisterUser"><i class="bi bi-person-plus-fill" aria-hidden="true"></i></a>
+                            <a class="nav-link text-warning mr-3" asp-area="Customer" asp-controller="LoginAndRegister" asp-action="LoginUser"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i></a>
+                        }
+                        else if (@Context.Session.GetString("LogStatus").Equals("LoggedIn"))
+                        {
+                             <a class="nav-link text-warning mr-3" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart" aria-hidden="true"></i></a>
+                            <a class="nav-link text-warning mr-3" asp-area="Customer" asp-controller="LoginAndRegister" asp-action="LogOut"><i class="bi bi-box-arrow-right" aria-hidden="true"></i></a>
+                            
+                        }
+                        else if (@Context.Session.GetString("LogStatus").Equals("LoggedOut"))
+                        {                           
+                            <a class="nav-link text-warning mr-3" asp-area="Customer" asp-controller="LoginAndRegister" asp-action="RegisterUser"><i class="bi bi-person-plus-fill" aria-hidden="true"></i></a>
+                            <a class="nav-link text-warning mr-3" asp-area="Customer" asp-controller="LoginAndRegister" asp-action="LoginUser"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i></a>
+                        }
+                    }
+                </div>
+            </div>
+        </nav>
+
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - CoreCodeFirst - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+ 
+</body>
+</html>

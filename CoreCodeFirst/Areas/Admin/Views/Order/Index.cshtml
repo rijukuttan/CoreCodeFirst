@@ -1,0 +1,197 @@
+﻿@model IEnumerable<OrderHeader>
+@{
+    var status=Context.Request.Query["status"];
+    var pending = "text-primary";
+    var inprocess = "text-primary";
+    var completed = "text-primary";
+    var approved = "text-primary";
+    var all = "text-primary";
+
+    switch (status)
+    {
+        case "pending":
+            pending = "active text-white";
+            break;
+        case "inprocess":
+            inprocess = "active text-white";
+            break;
+        case "completed":
+            completed = "active text-white";
+            break;
+        case "approved":
+            approved = "active text-white";
+            break;
+        default:
+            all = "active text-white";
+            break;
+
+    }
+}
+<div class="p-3">
+    <div class=" justify-content-between pt-4">
+        <div class="p-2">
+            <h2 class="text-primary">Order List</h2>
+            </div>
+            <div class="p-2">
+    @*            <ul class="list-group list-group-horizontal-sm">
+                    <a style="text-decoration:none;" asp-controller="Order" 
+                    asp-action="Index" asp-route-status="inprocess">
+                    <li class="list-group-item @inprocess">In Process</li>
+                    </a>
+                      <a style="text-decoration:none;" asp-controller="Order" 
+                    asp-action="Index" asp-route-status="pending">
+                    <li class="list-group-item @pending">Payment pending</li>
+                    </a>
+                      <a style="text-decoration:none;" asp-controller="Order" 
+                    asp-action="Index" asp-route-status="completed">
+                    <li class="list-group-item @completed">completed</li>
+                    </a>
+                      <a style="text-decoration:none;" asp-controller="Order" 
+                    asp-action="Index" asp-route-status="approved">
+                    <li class="list-group-item @approved">Approved</li>
+                    </a>
+                      <a style="text-decoration:none;" asp-controller="Order" 
+                    asp-action="Index" asp-route-status="all">
+                    <li class="list-group-item @all">All</li>
+                    </a>
+                    </ul>*@
+                    <div class="list-group list-group-horizontal-sm">
+               
+                    <button class="" style="text-decoration:none;" onclick="setStatus('inprocess')">
+                      <span class="list-group-item" >In Process</span>
+                    </button>
+                      <button class="" style="text-decoration:none;" onclick="setStatus('pending')">
+                    <span class=" list-group-item" >Payment pending</span>
+                    </button>
+                      <button class="" style="text-decoration:none;" onclick="setStatus('completed')">
+                    <span class="list-group-item" >completed</span>
+                    </button>
+                      <button class="" style="text-decoration:none;" onclick="setStatus('approved')">
+                    <span class="list-group-item ">Approved</span>
+                    </button>
+                      <button class="" style="text-decoration:none;" onclick="setStatus('all')">
+                    <span class="list-group-item">All</span>
+                    </button>
+                    </div>
+                    <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                       <th>Name</th>
+                          <th>Phone Number</th>
+                             <th>Order Date</th>
+                                <th>Status</th>
+                                   <th>Total</th>
+                                     
+                    </tr>
+                </thead>
+       @*         <tbody>
+                    @foreach(var item in Model.Select((value,index)=>new{index,value})){
+                        <tr>
+                            <td>@(item.index+1)</td>
+                            <td>@item.value.Name</td>
+                             <td>@item.value.PhoneNumber</td>
+                             <td>@item.value.OrderDate</td>
+                             <td>@item.value.OrderStatus</td>
+                            <td>@item.value.OrderTotal</td>
+                        </tr>
+                    }
+                    </tbody>*@
+                     <tbody id="tblBody">
+                    @foreach(var item in Model.Select((value,index)=>new{index,value})){
+                        <tr>
+                            <td>@(item.index+1)</td>
+                            <td>@item.value.Name</td>
+                             <td>@item.value.PhoneNumber</td>
+                             <td>@item.value.OrderDate</td>
+                             <td>@item.value.OrderStatus</td>
+                            <td>@item.value.OrderTotal</td>
+                        </tr>
+                    }
+                    </tbody>
+            </table>
+                  @*  <div id="OrderTable">
+                          <partial name="_OrderTable"/>
+                    </div>*@
+                </div>
+        </div>
+       
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+ <script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+  <script type="text/javascript">
+ 
+    function setStatus(status) {
+
+         var SetData = $("#tblBody");
+        SetData.html("");
+                $.ajax({
+                    type: 'GET',
+                    url: '/Admin/Order/Index?status='+status,
+                        success: function (result) {
+                            //  $('table tbody #'+id).remove()
+              // $("table #tblBody").load();
+                           // alert(id);
+                          //  parent.remove();
+                           if (result.length == 0) {
+                      // alert(status);
+                       alert("result is empty"+result)
+                    }
+                    else {
+                        console.log(JSON.stringify(result));
+                        //var r=JSON.stringify(result);
+                         //alert(r);
+                        $.each(result, function (index, value) {
+                           // alert("result"+value.Name)
+                            var Data = "<tr>" +
+                                "<td>" + value.index+1 + "</td>" +
+                                "<td>" + value.name + "</td>" +
+                                "<td>" + value.phoneNumber + "</td>" +
+                                "<td>" + value.orderDate + "</td>" +
+                                "<td>" + value.orderStatus + "</td>" +
+                                "<td>" + value.orderTotal + "</td>" +
+
+                                "</tr>";
+                                
+                            SetData.append(Data);
+                        });
+                          //$('#tblBody').html(result);
+                    }
+                        
+            },
+                  error: function (productList) {
+                alert("error");
+                alert(productList);
+            },
+            faliure: function (productList) {
+                alert("fail");
+            }
+                });
+               
+            
+        }
+        
+    </script>
+@*
+ <script type="text/javascript">
+      function setStatus(status) {
+                     $.ajax({
+                    type: 'GET',
+                    url: '/Admin/Order/Index?status=' + status,
+                    success: function(result){   
+    $("#tblData").load();
+  }
+                })
+     
+        }
+        function getOrderList(status){
+                       $.ajax({
+                    type: 'GET',
+                    url: '/Admin/Order/Index?status=' + status,
+                     success: function(result){   
+    document.getElementById(id).innerHTML = result;
+  }
+                });
+        }
+      
+     </Script>*@
